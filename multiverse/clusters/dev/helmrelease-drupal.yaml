@@ -1,0 +1,19 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: drupal
+  namespace: default
+spec:
+  chart:
+    spec:
+      chart: drupal
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: drupal
+      version: 13.0.10
+  interval: 1m0s
+  releaseName: drupal
+  values: {}
+
