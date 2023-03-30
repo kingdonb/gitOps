@@ -1,0 +1,243 @@
+{
+    "name": "phase2/nbcu-multiverse-drupal",
+    "description": "NBCUniversal Multiverse Drupal project.",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Phase2 Technology",
+            "homepage": "https://www.phase2technology.com",
+            "role": "Maintainer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "discard-changes": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupal/core-composer-scaffold": true,
+            "oomphinc/composer-installers-extender": true
+        }
+    },
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        "twig": {
+            "type": "git",
+            "url": "https://github.com/danshumaker/twig-lint"
+        },
+        "migrate_booster": {
+            "type": "git",
+            "url": "https://github.com/jordanpagewhite/migrate_booster.git"
+        }
+    },
+    "require-dev": {
+        "danshumaker/twig-lint": "^1.0",
+        "drupal/ckeditor5_dev": "^1.0",
+        "drupal/core-dev": "^9.5",
+        "drupal/devel": "^5.0",
+        "drupal/drupal-extension": "^4.1",
+        "drupal/field_tools": "^1.0@alpha",
+        "drupal/stage_file_proxy": "^2.0",
+        "kint-php/kint": "^5.0",
+        "php-parallel-lint/php-parallel-lint": "^1.0",
+        "phpspec/prophecy-phpunit": "^2.0",
+        "roave/security-advisories": "dev-latest",
+        "weitzman/drupal-test-traits": "^2.0"
+    },
+    "require": {
+        "php": "^8.1",
+        "composer/installers": "^2.0",
+        "cweagans/composer-patches": "^1.6",
+        "drupal/admin_toolbar": "^3.2",
+        "drupal/allowed_formats": "^2.0",
+        "drupal/auto_entitylabel": "^3.0",
+        "drupal/ckeditor_html_embed": "^1.0",
+        "drupal/cloudinary": "^2.1",
+        "drupal/conditional_fields": "^4.0",
+        "drupal/config_filter": "^2.2",
+        "drupal/config_ignore": "^2.3",
+        "drupal/config_split": "^2.0@beta",
+        "drupal/core-composer-scaffold": "^9.5",
+        "drupal/core-recommended": "^9.5",
+        "drupal/dependent_fields": "^1.0",
+        "drupal/diff": "^1.0",
+        "drupal/dynamic_entity_reference": "^4.0",
+        "drupal/entity_events": "^2.0",
+        "drupal/entity_reference_view_selection_with_id_args": "^1.0@alpha",
+        "drupal/environment_indicator": "^4.0",
+        "drupal/field_group": "^3.3",
+        "drupal/gin": "^3.0",
+        "drupal/gin_login": "^2.0",
+        "drupal/gin_toolbar": "^1.0",
+        "drupal/graphql": "^4.4",
+        "drupal/graphql_core_schema": "^1.0",
+        "drupal/image_widget_crop": "^2.4",
+        "drupal/inline_entity_form": "^1.0@RC",
+        "drupal/link_attributes": "^1.11",
+        "drupal/linkit": "^6.0",
+        "drupal/maxlength": "^2.0",
+        "drupal/memcache": "^2.2",
+        "drupal/metatag": "^1.14",
+        "drupal/migrate_plus": "^6.0",
+        "drupal/migrate_tools": "^6.0",
+        "drupal/migrate_upgrade": "^4.0",
+        "drupal/paragraphs": "^1.15",
+        "drupal/pathauto": "^1.8",
+        "drupal/readonly_field_widget": "^1.5",
+        "drupal/redirect": "^1.6",
+        "drupal/redis": "^1.6",
+        "drupal/restui": "^1.18",
+        "drupal/simple_sitemap": "^4.1",
+        "drupal/schema_metatag": "^2.4",
+        "drupal/term_sidebar": "^1.0",
+        "drupal/time_field": "^2.1",
+        "drupal/token": "^1.7",
+        "drupal/uuid_extra": "^2.0",
+        "drush/drush": "^11.0",
+        "kporras07/composer-symlinks": "^0.1.0@dev",
+        "oomphinc/composer-installers-extender": "^2.0",
+        "thinktandem/migrate_booster": "dev-main"
+    },
+    "provide": {
+        "drupal/ckeditor": "*"
+    },
+    "autoload-dev": {
+        "psr-4": { "Octane\\Tests\\": "project/tests/src/" }
+    },
+    "scripts": {
+        "project-scaffold": [
+            "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
+        ],
+        "post-autoload-dump": [
+            "@project-scaffold"
+        ],
+        "phpcs": "phpcs --standard=project/tests/.phpcs.xml --report-full --colors",
+        "phpcbf": "phpcbf --standard=project/tests/.phpcs.xml --colors",
+        "test:unit": "phpunit -c project/tests/phpunit.xml --printer '\\Drupal\\Tests\\Listeners\\HtmlOutputPrinter'",
+        "test:behat": "behat -c project/tests/behat.yml -fprogress",
+        "test": [
+            "@test:unit"
+        ],
+        "twig-lint": [
+            "twig-lint --ansi --only-print-errors"
+        ]
+    },
+    "extra": {
+        "enable-patching": true,
+        "composer-exit-on-patch-failure": 0,
+        "patchLevel": {
+            "drupal/core": "-p2"
+        },
+        "patches": {
+            "drupal/cloudinary": {
+                "3315181 - JSON API conflict": "https://www.drupal.org/files/issues/2022-12-13/cloudinary-json_api_error-3315181-4.patch",
+                "3326946 - Fix Stream Wrapper ability to identify directories": "https://www.drupal.org/files/issues/2022-12-13/cloudinary-stream_wrapper_move-3326946-3.patch",
+                "3331582 - Make createFile method public": "https://www.drupal.org/files/issues/2023-01-06/cloudinary_make-createfile-method-public-3.patch"
+            },
+            "drupal/core": {
+                "2759397 - Patch EntityReferenceItemNormalizer to prevent recursion": "https://www.drupal.org/files/issues/2020-03-30/2759397-25.patch",
+                "2429321 - Verify that the configured service exists before calling it in CacheFactory": "https://www.drupal.org/files/issues/2020-04-30/2429321-8.9-73.patch",
+                "2718657 - Broken lang install": "https://www.drupal.org/files/issues/2019-02-28/language-2718657-17.patch",
+                "2985882 - Workaround for Call to a member function in layout builder": "https://www.drupal.org/files/issues/2020-04-08/2985882-field-85.patch",
+                "3070375 - Hidden buttons in off-canvas dialog are not being hidden": "https://www.drupal.org/files/issues/2020-08-24/3070375-14.patch",
+                "3163925 - Unrelated error message when running tests with database errors": "https://git.drupalcode.org/project/drupal/-/merge_requests/212.patch",
+                "2827701 - Revision log message not returning empty string": "https://www.drupal.org/files/issues/2022-08-16/2827701-27.patch",
+                "2183565 - Avoid loading all terms on the taxonomy overview form": "https://www.drupal.org/files/issues/2022-07-02/2183565-49.patch",
+                "2429699 - Add Views EntityReference filter to be available for all entity reference fields": "https://www.drupal.org/files/issues/2022-12-14/drupal-views-entity-reference-filter-2429699-519.patch",
+                "2329253 - Allow the ChangedItem to skip updating the entity's 'changed' timestamp when synchronizing": "https://www.drupal.org/files/issues/2022-12-19/2329253-101.patch",
+                "3052115 - Mark an entity as 'syncing' during a migration update": "https://www.drupal.org/files/issues/2022-06-16/3052115-53.patch",
+                "3336310 - Only set the filesize if it is not yet known": "https://www.drupal.org/files/issues/2023-01-25/core-filesize-check-on-presave-3336310-3.patch"
+            },
+            "drupal/linkit": {
+                "#2712951-201: Enable LinkIt for link fields": "https://www.drupal.org/files/issues/2020-12-01/linkit-for-link-field-2712951-201.patch"
+            },
+            "drupal/readonly_field_widget": {
+                "#3320140 - Correct style of description within gin theme": "https://www.drupal.org/files/issues/2022-11-09/readonly_field_widget-add_claro_description_classes-3320140-2.patch"
+            },
+            "drupal/uuid_extra": {
+                "3268320 - Allow use of UUID field within field groups": "https://www.drupal.org/files/issues/2022-07-13/uuid_extra-field_group-3268320-4.patch"
+            },
+            "drupal/redirect": {
+                "3094700 - Integrity constraint violation errors during migration ": "https://www.drupal.org/files/issues/2019-11-18/redirect-migration_constraint_errors-3094700-2-d8.patch"
+            }
+        },
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "docroot/"
+            },
+            "allowed-packages": [
+                "drupal/core"
+            ],
+            "file-mapping": {
+                "[web-root]/.htaccess": {
+                    "mode": "replace",
+                    "path": "docroot/core/assets/scaffold/files/htaccess",
+                    "overwrite": false
+                },
+                "[web-root]/sites/default/default.services.yml": {
+                    "mode": "replace",
+                    "path": "docroot/core/assets/scaffold/files/default.services.yml",
+                    "overwrite": false
+                },
+                "[web-root]/sites/default/default.settings.php": {
+                    "mode": "replace",
+                    "path": "docroot/core/assets/scaffold/files/default.settings.php",
+                    "overwrite": false
+                }
+            }
+        },
+        "installer-types": [
+            "ckeditor-plugin"
+        ],
+        "installer-paths": {
+            "docroot/core": [
+                "type:drupal-core"
+            ],
+            "docroot/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "docroot/libraries/ckeditor/plugins/{$name}": [
+                "type:ckeditor-plugin"
+            ],
+            "docroot/libraries/{$name}": [
+                "type:drupal-library"
+            ],
+            "docroot/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "docroot/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "docroot/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ],
+            "docroot/drush/contrib/{$name}": [
+                "type:drupal-drush"
+            ]
+        },
+        "symlinks": {
+            "docs": "docroot/docs",
+            "project/modules": "docroot/modules/custom",
+            "project/themes": "docroot/themes/custom",
+            "project/profiles": "docroot/profiles/custom",
+            "project/libraries": "docroot/libraries/custom",
+            "project/sites/default/settings.php": "docroot/sites/default/settings.php",
+            "project/sites/default/services.yml": "docroot/sites/default/services.yml",
+            "project/sites/all": "docroot/sites/all",
+            "project/config": "config",
+            "project/drush": "drush",
+            "project/sites/sites.php": "docroot/sites/sites.php",
+            "project/sites/nbcu-multiverse-drupal": "docroot/sites/nbcu-multiverse-drupal",
+            "project/sites/news": "docroot/sites/news",
+            "project/sites/telemundo": "docroot/sites/telemundo",
+            "project/sites/today": "docroot/sites/today"
+        }
+    }
+}

@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+
+  drupal:
+    build: 
+      context: . 
+      dockerfile: ./drupal.Dockerfile
+    depends_on:
+      - mariadb
+    links:
+      - mariadb
+    ports:
+      - 9000:9000
+    environment:
+      MYSQL_PASSWORD: drupal
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_HOST: mariadb
+      MYSQL_PORT: 3306
+      DRUPAL_DATABASE_PASSWORD: drupal
+    networks:
+      - multiverse
+    volumes:
+      - docroot:/var/www/docroot
+      - drupal:/opt/drupal
+    restart: always
+    tty: true
+
+  mariadb:
+    image: mariadb:10.7
+    container_name: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: drupal
+      MARIADB_DATABASE: drupal
+      MARIADB_USER: drupal
+      MARIADB_PASSWORD: drupal
+    networks:
+      - multiverse
+
+  nginx:
+    build: 
+      context: . 
+      dockerfile: ./nginx.Dockerfile
+    depends_on:
+      - drupal
+    ports:
+      - 8080:80
+    networks:
+      - multiverse
+    volumes:
+      - docroot:/var/www/docroot
+      - drupal:/opt/drupal
+
+volumes:
+  docroot:
+  drupal:
+
+secrets:
+  ssh_key:
+    file: ~/.ssh/id_rsa
+
+networks:
+  multiverse:
+    driver: bridge
