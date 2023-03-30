@@ -31,4 +31,4 @@ RUN set -eux; \
     rm -rf "$COMPOSER_HOME" 
 
 ENTRYPOINT ["/opt/scripts/entrypoint.sh"]
-CMD ["/bin/bash"]
+CMD ["php-fpm"]
