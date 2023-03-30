@@ -1,0 +1,10 @@
+FROM bitnami/drupal:9
+
+# Replace Bitnami-dwonloaded Drupal
+RUN rm -r /opt/bitnami/drupal/*
+
+WORKDIR /opt/bitnami
+
+# Add our files in place necessary for composer install
+COPY app/* .
+RUN composer install
