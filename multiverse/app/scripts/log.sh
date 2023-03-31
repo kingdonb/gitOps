@@ -80,7 +80,6 @@ debug() {
     # 'is_boolean_yes' is defined in libvalidations.sh, but depends on this file so we cannot source it
     local bool="${DEBUG:-false}"
     # comparison is performed without regard to the case of alphabetic characters
-    shopt -s nocasematch
     if [[ "$bool" = true ]]; then
         log "${MAGENTA}DEBUG${RESET} ==> ${*}"
     fi
