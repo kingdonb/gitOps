@@ -11,6 +11,11 @@ dbUrl="mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:${MYSQL_PORT}/${MYS
 function install_drupal () {
   info "Installing Drupal profile: Octane.\n"
   drush @telemundo si --db-url=${dbUrl} --account-pass="admin" octane -y
+  touch /opt/drupal/ready
 }
 
-install_drupal
+if [-f '/opt/drupal/ready']; then
+  info "Site is already setup..\n"
+else
+  install_drupal
+fi

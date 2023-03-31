@@ -1,5 +1,4 @@
 FROM drupal:9.5.7-php8.1-fpm-alpine
-
 # Add required libs
 RUN apk add git openssh bash mysql-client
 # Pass in ssh key 
@@ -27,6 +26,7 @@ RUN set -eux; \
     chown -R www-data:www-data docroot; \
     # link to web servers docroot
     ln -sf /opt/drupal/docroot /var/www/docroot; \
+    ln -sf /opt/drupal/project /var/www/project; \
     # clean up
     rm -rf "$COMPOSER_HOME" 
 
