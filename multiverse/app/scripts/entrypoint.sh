@@ -29,7 +29,7 @@ print_welcome_page() {
 }
 print_welcome_page
 
-. /opt/scripts/setup.sh
+# . /opt/scripts/setup.sh
 
 echo ""
 exec "$@"

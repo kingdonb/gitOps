@@ -5,12 +5,10 @@ RUN apk add git openssh bash mysql-client
 RUN mkdir -p -m 0700 ~/.ssh && ln -s /run/secrets/ssh_key ~/.ssh/id_rsa && ssh-keyscan github.com >> ~/.ssh/known_hosts
 # clear working folder
 RUN rm -rf /opt/drupal && mkdir /opt/drupal
-# set working folder
+# set working folder    
 WORKDIR /opt/drupal
 # import project
 RUN --mount=type=ssh git clone --depth=1 'git@github.com:nbcnews/nbcu-multiverse-drupal.git' .
-# overwrite composer | Wont be necessary once we modify in the project
-COPY ./composer.json composer.json
 # bring over the setup file
 COPY ./scripts /opt/scripts
 RUN chmod -R 777 /opt/scripts

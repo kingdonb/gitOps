@@ -22,9 +22,6 @@ services:
     volumes:
       - docroot:/var/www/docroot
       - projects:/var/www/project
-      - extra:/var/www/extra
-      - docs:/var/www/docs
-      - drupal:/opt/drupal
     restart: always
 
   mariadb:
@@ -54,16 +51,10 @@ services:
     volumes:
       - docroot:/var/www/docroot
       - projects:/var/www/project
-      - extra:/var/www/extra
-      - docs:/var/www/docs
-      - drupal:/opt/drupal
 
 volumes:
   docroot:
-  drupal:
   projects:
-  extra:
-  docs:
 
 secrets:
   ssh_key:
