@@ -31,7 +31,7 @@ spec:
           # of https://docs.github.com/en/rest/pulls/pulls#list-pull-requests, meaning that fields like `head` and `base`
           # are also available.
           name: "pr-{{ matrix.pr.head.label | slugify }}"
-          namespace: default
+          namespace: kluctl-system
         spec:
           interval: 5m
           url: "https://github.com/{{ matrix.pr.head.repo.full_name }}.git"
@@ -43,7 +43,7 @@ spec:
         kind: HelmRepository
         metadata:
           name: "helmrepo-bitnami-{{ matrix.pr.head.label | slugify }}"
-          namespace: default
+          namespace: kluctl-system
         spec:
           interval: 10m0s
           url: https://charts.bitnami.com/bitnami
@@ -52,7 +52,7 @@ spec:
         kind: HelmRelease
         metadata:
           name: "helmrelease-drupal-{{ matrix.pr.head.label | slugify }}"
-          namespace: default
+          namespace: kluctl-system
         spec:
           chart:
             spec:
