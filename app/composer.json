@@ -15,58 +15,59 @@
         }
     ],
     "require": {
-        "composer/installers": "^1.9",
-        "drupal/core-composer-scaffold": "^9",
-        "drupal/core-project-message": "^9",
-        "drupal/core-recommended": "^9",
-        "drupal/token": "^1.11",
-        "drush/drush": "^11.5"
+        "composer/installers": "^2.0",
+        "drupal/core-composer-scaffold": "^10.0",
+        "drupal/core-project-message": "^10.0",
+        "drupal/core-recommended": "^10.0",
+        "drupal/core-vendor-hardening": "^10.0",
+        "drush/drush": "^11.5",
+        "drupal/token": "^1.11"
     },
     "conflict": {
         "drupal/drupal": "*"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "config": {
         "sort-packages": true,
         "allow-plugins": {
             "composer/installers": true,
             "drupal/core-composer-scaffold": true,
-            "drupal/core-project-message": true
+            "drupal/core-project-message": true,
+            "drupal/core-vendor-hardening": true,
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "extra": {
         "drupal-scaffold": {
             "locations": {
-                "web-root": "./drupal"
-            },
-            "file-mapping": {
-                "[web-root]/sites/default/default.settings.php": false
+                "web-root": "./"
             }
         },
         "installer-paths": {
-            "drupal/core": [
+            "core": [
                 "type:drupal-core"
             ],
-            "drupal/libraries/{$name}": [
+            "libraries/{$name}": [
                 "type:drupal-library"
             ],
-            "drupal/modules/contrib/{$name}": [
+            "modules/contrib/{$name}": [
                 "type:drupal-module"
             ],
-            "drupal/profiles/contrib/{$name}": [
+            "profiles/contrib/{$name}": [
                 "type:drupal-profile"
             ],
-            "drupal/themes/contrib/{$name}": [
+            "themes/contrib/{$name}": [
                 "type:drupal-theme"
             ],
             "Commands/contrib/{$name}": [
                 "type:drupal-drush"
             ],
-            "drupal/modules/custom/{$name}": [
+            "modules/custom/{$name}": [
                 "type:drupal-custom-module"
             ],
-            "drupal/themes/custom/{$name}": [
+            "themes/custom/{$name}": [
                 "type:drupal-custom-theme"
             ]
         },
