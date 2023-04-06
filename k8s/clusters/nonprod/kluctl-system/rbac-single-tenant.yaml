@@ -43,4 +43,5 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: template-controller
-    namespace: default
+    # namespace: default
+    namespace: kluctl-system
