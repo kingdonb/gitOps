@@ -1,0 +1,21 @@
+apiVersion: templates.kluctl.io/v1alpha1
+kind: ListGithubPullRequests
+metadata:
+  name: list-gh-prs
+  # namespace: default
+  namespace: kluctl-system
+spec:
+  interval: 1m
+  # Replace the owner with your username in case you forked podtato-head
+  owner: telemundo
+  repo: gitOps
+  # Ignore closed PRs
+  state: open
+  # Only PR's that go against the main branch
+  base: main
+  # Replace `podtato-head` with your username. This will only allows heads from your own fork!
+  # Otherwise, you risk deploying unsafe environments into your cluster!
+  head: telemundo:.*
+  #tokenRef:
+  #  secretName: git-credentials
+  #  key: github-token

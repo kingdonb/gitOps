@@ -1,0 +1,46 @@
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: template-controller
+#   namespace: default
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: template-controller
+  # namespace: default
+  namespace: kluctl-system
+rules:
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["*"]
+# ---
+# kind: RoleBinding
+# apiVersion: rbac.authorization.k8s.io/v1
+# metadata:
+#   name: template-controller
+#   # namespace: default
+#   namespace: kluctl-system
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: Role
+#   name: template-controller
+# subjects:
+#   - kind: ServiceAccount
+#     name: template-controller
+#     namespace: default
+---
+# To-do secure this with RBAC for single-tenant
+# FOR DEMO ONLY
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: template-controller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: template-controller
+    namespace: default

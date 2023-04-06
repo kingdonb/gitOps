@@ -1,0 +1,66 @@
+apiVersion: templates.kluctl.io/v1alpha1
+kind: ObjectTemplate
+metadata:
+  name: pr-preview
+  namespace: kluctl-system
+spec:
+  serviceAccountName: template-controller
+  # This causes removal of templated objects in case they disappear from the rendered list of objects
+  prune: true
+  matrix:
+    - name: pr
+      object:
+        ref:
+          apiVersion: templates.kluctl.io/v1alpha1
+          kind: ListGithubPullRequests
+          name: list-gh-prs
+        jsonPath: status.pullRequests
+        expandLists: true
+  templates:
+    - object:
+        apiVersion: v1
+        kind: Namespace
+        metadata:
+          # Give each one its own namespace
+          name: "pr-{{ matrix.pr.head.label | slugify }}"
+    - object:
+        apiVersion: source.toolkit.fluxcd.io/v1beta2
+        kind: GitRepository
+        metadata:
+          # The pullRequests status field from the ListGithubPullRequests is a reduced form of the REST API result
+          # of https://docs.github.com/en/rest/pulls/pulls#list-pull-requests, meaning that fields like `head` and `base`
+          # are also available.
+          name: "pr-{{ matrix.pr.head.label | slugify }}"
+          namespace: default
+        spec:
+          interval: 5m
+          url: "https://github.com/{{ matrix.pr.head.repo.full_name }}.git"
+          ref:
+            branch: "{{ matrix.pr.head.ref }}"
+    # To-do: make this DRY. FOR DEMO ONLY
+    - object:
+        apiVersion: source.toolkit.fluxcd.io/v1beta2
+        kind: HelmRepository
+        metadata:
+          name: "helmrepo-bitnami-{{ matrix.pr.head.label | slugify }}"
+          namespace: default
+        spec:
+          interval: 10m0s
+          url: https://charts.bitnami.com/bitnami
+    - object:
+        apiVersion: helm.toolkit.fluxcd.io/v2beta1
+        kind: HelmRelease
+        metadata:
+          name: "helmrelease-drupal-{{ matrix.pr.head.label | slugify }}"
+          namespace: default
+        spec:
+          chart:
+            spec:
+              chart: drupal
+              reconcileStrategy: ChartVersion
+              sourceRef:
+                kind: HelmRepository
+                name: bitnami
+          interval: 10s
+          releaseName: drupal
+          targetNamespace: "pr-{{ matrix.pr.head.label | slugify }}"
